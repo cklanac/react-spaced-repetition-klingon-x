@@ -15,6 +15,13 @@ const app = express();
 app.use(express.static(process.env.CLIENT_PATH));
 app.use(bodyParser.json());
 
+app.get('/questions', (req, res) => res.json([
+    { question: 'a', answer: 'A', mValue: 1 },
+    { question: 'b', answer: 'B', mValue: 1 },
+    { question: 'c', answer: 'C', mValue: 1 },
+    { question: 'd', answer: 'D', mValue: 1 },
+]));
+
 app.post('/users', (req, res) => {
     if (!req.body) {
         return res.status(400).json({ message: 'No request body' });
