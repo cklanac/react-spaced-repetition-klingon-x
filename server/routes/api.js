@@ -11,28 +11,16 @@ mongoose.Promise = global.Promise;
 
 passport.use(new BearerStrategy(
   function (accessToken, done) {
-    const user = {
-      accessToken: accessToken,
-      displayName: 'John Doe'
-    };
-
-    // User.findOne({ accessToken: accessToken })
-    //     .then(user => {
-    return done(null, user, { scope: 'read' });
-    //     })
-
+    User.findOne({ accessToken: accessToken })
+      .then(user => {
+        done(null, user, { scope: 'read' });
+      }).catch(err => {
+        done(err, null);
+      });
   }
 ));
 
 router.get('/questions', passport.authenticate('bearer', { session: false }),
-  (req, res) => res.json([
-    { question: 'a', answer: 'A', mValue: 1 },
-    { question: 'b', answer: 'B', mValue: 1 },
-    { question: 'c', answer: 'C', mValue: 1 },
-    { question: 'd', answer: 'D', mValue: 1 },
-  ]));
-
-router.get('/foo', (req, res) => res.json({ foo: "bar" }));
-
+  (req, res) => res.json(req.user.questions));
 
 module.exports = router;

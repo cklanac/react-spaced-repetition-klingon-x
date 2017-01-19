@@ -6,6 +6,10 @@ const UserSchema = mongoose.Schema({
     type: Object,
     required: true
   },
+  email: {
+    type: String,
+    required: true
+  },
   googleId: {
     type: String,
     required: true,
@@ -14,7 +18,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-
+  questions: Array
 });
 
 const User = mongoose.model('User', UserSchema);
