@@ -5,9 +5,8 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import BearerStrategy from 'passport-http-bearer';
-import { PORT, DATABASE_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '../config';
 import User from './models/user';
-
+import { PORT, DATABASE_URL, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '../config';
 mongoose.Promise = global.Promise;
 
 console.log(`Server running in ${process.env.NODE_ENV} mode`);
@@ -72,6 +71,12 @@ app.get('/auth/google/callback',
         res.redirect('/#/quiz');
     });
 
+app.get('/auth/logout', function (req, res) {
+    req.logout();
+    res.redirect('/home');
+});
+
+
 passport.use(new BearerStrategy(
     function (accessToken, done) {
         const user = {
@@ -86,13 +91,6 @@ passport.use(new BearerStrategy(
 
     }
 ));
-
-// app.get('/api/questions', (req, res) => res.json([
-//     { question: 'a', answer: 'A', mValue: 1 },
-//     { question: 'b', answer: 'B', mValue: 1 },
-//     { question: 'c', answer: 'C', mValue: 1 },
-//     { question: 'd', answer: 'D', mValue: 1 },
-// ]));
 
 app.get('/api/questions', passport.authenticate('bearer', { session: false }),
     (req, res) => res.json([
