@@ -3,6 +3,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import apiRoutes from './routes/api';
+import authRoutes from './routes/auth';
 import { PORT, DATABASE_URL } from '../config';
 
 mongoose.Promise = global.Promise;
@@ -14,11 +16,8 @@ const app = express();
 app.use(express.static(process.env.CLIENT_PATH));
 app.use(bodyParser.json());
 
-const auth = require('./routes/auth');
-app.use('/auth', auth);
-
-const api = require('./routes/api');
-app.use('/api', api);
+app.use('/api', apiRoutes);
+app.use('/auth', authRoutes);
 
 function runServer() {
     return new Promise((resolve, reject) => {
