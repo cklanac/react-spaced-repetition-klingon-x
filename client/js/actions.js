@@ -1,8 +1,13 @@
 import 'isomorphic-fetch';
+import cookie from 'react-cookie';
 
 export const fetchQuestions = () => dispatch => {
   dispatch(fetchQuestionsRequest());
-  return fetch('/questions').then(res => {
+  return fetch('/api/questions', {
+    headers: {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+  }).then(res => {
     if (!res.ok) {
       throw new Error(res.statusText);
     }

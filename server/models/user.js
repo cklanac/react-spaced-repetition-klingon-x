@@ -3,9 +3,18 @@ mongoose.Promise = global.Promise;
 
 const UserSchema = mongoose.Schema({
   name: {
-    type: String,
+    type: Object,
     required: true
-  }
+  },
+  googleId: {
+    type: String,
+    required: true,
+  },
+  accessToken: {
+    type: String,
+    require: true,
+  },
+
 });
 
 const User = mongoose.model('User', UserSchema);
