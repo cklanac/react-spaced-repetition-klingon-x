@@ -1,4 +1,8 @@
-exports.DATABASE_URL = process.env.DATABASE_URL ||
-  global.DATABASE_URL ||
-  'mongodb://localhost/basic-auth-demo';
-exports.PORT = process.env.PORT || global.PORT || 8080;
+import dotenv from 'dotenv';
+dotenv.config();
+
+exports.DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/spaced-repetition';
+exports.PORT = process.env.PORT || 8080;
+
+exports.GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+exports.GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
