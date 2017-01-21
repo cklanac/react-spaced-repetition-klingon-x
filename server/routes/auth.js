@@ -14,15 +14,13 @@ passport.use(new GoogleStrategy({
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
   callbackURL: 'http://localhost:8080/auth/google/callback'
-}, function (accessToken, refreshToken, profile, done) {
-
+}, (accessToken, refreshToken, profile, done) => {
   User.findOneAndUpdate({ googleId: profile.id },
     {
       $set: {
         name: profile.name,
         email: profile.emails[0].value,
-        accessToken: accessToken,
-        questions: getArrayOfQuestions()
+        accessToken: accessToken
       }
     },
     { upsert: true, 'new': true })
@@ -31,28 +29,27 @@ passport.use(new GoogleStrategy({
     }).catch((err) => {
       done(err, false);
     });
-
-  function getArrayOfQuestions() {
-    return [
-      { question: 'a', answer: 'A', mValue: 1 },
-      { question: 'b', answer: 'B', mValue: 1 },
-      { question: 'c', answer: 'C', mValue: 1 },
-      { question: 'd', answer: 'D', mValue: 1 },
-    ]
-  }
 }));
+
+// apply passport.authenticate('google'...) to all `/auth/` paths
+// router.use(passport.authenticate('google', {
+//   scope: ['profile', 'email'],
+//   failureRedirect: '/#/home',
+//   session: false
+// }));
 
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
-  function (req, res) {
-    res.cookie('accessToken', req.user.accessToken, { expires: 0, httpOnly: false });
+  passport.authenticate('google', { failureRedirect: '/#/home', session: false }),
+  (req, res) => {
+    res.cookie('accessToken', req.user.accessToken, { expires: 0 });
+    // res.set('accessToken', req.user.accessToken);
     res.redirect('/#/quiz');
   });
 
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
   req.logout();
   res.clearCookie('accessToken');
   // console.log('cookie', req.cookies.accessToken);
