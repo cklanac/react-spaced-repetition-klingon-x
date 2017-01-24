@@ -3,5 +3,5 @@ import * as client from './client/index';
 
 export {
     server,
-    client
+    client,
 };

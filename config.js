@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+
 dotenv.config({ silent: true });
 
 exports.DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/spaced-repetition';

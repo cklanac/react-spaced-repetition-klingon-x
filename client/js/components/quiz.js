@@ -14,14 +14,13 @@ export class Quiz extends React.Component {
   submit(event) {
     event.preventDefault();
     this.props.dispatch(actions.submitAnswer({
-      answer: event.target.answer.value
+      answer: event.target.answer.value,
     }));
     event.target.reset();
   }
 
   render() {
-
-    let current = this.props.questions[0] || {};
+    const current = this.props.questions[0] || {};
     console.log(this.props.questions);
     return (
       <div>
@@ -29,7 +28,7 @@ export class Quiz extends React.Component {
         <ul>{current.question}, {current.answer}</ul>
         <div>
           <form onSubmit={this.submit}>
-            <input name="answer" type="text" autoComplete="off"></input>
+            <input name="answer" type="text" autoComplete="off" />
           </form>
         </div>
       </div>
@@ -38,7 +37,7 @@ export class Quiz extends React.Component {
 }
 
 function mapStateToProps(state, props) {
-  return { questions: state.questions }
+  return { questions: state.questions };
 }
 
 export default connect(mapStateToProps)(Quiz);

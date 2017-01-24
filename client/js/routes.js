@@ -1,7 +1,7 @@
 import React from 'react';
-import { Router, Route, hashHistory } from 'react-router';
-import Home from './components/home'
-import Quiz from './components/quiz'
+import { Route, Router, hashHistory } from 'react-router';
+import Home from './components/home';
+import Quiz from './components/quiz';
 
 const routes = (
   <Router history={hashHistory}>

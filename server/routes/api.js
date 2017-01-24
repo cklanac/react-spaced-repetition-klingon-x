@@ -11,14 +11,14 @@ const router = express.Router();
 mongoose.Promise = global.Promise;
 
 passport.use(new BearerStrategy(
-  function (accessToken, done) {
-    User.findOne({ accessToken: accessToken })
-      .then(user => {
+  (accessToken, done) => {
+    User.findOne({ accessToken })
+      .then((user) => {
         done(null, user, { scope: 'read' });
-      }).catch(err => {
+      }).catch((err) => {
         done(err, null);
       });
-  }
+  },
 ));
 
 // apply passport.authenticate() to all paths in this route

@@ -13,17 +13,17 @@ mongoose.Promise = global.Promise;
 passport.use(new GoogleStrategy({
   clientID: GOOGLE_CLIENT_ID,
   clientSecret: GOOGLE_CLIENT_SECRET,
-  callbackURL: 'http://localhost:8080/auth/google/callback'
+  callbackURL: 'http://localhost:8080/auth/google/callback',
 }, (accessToken, refreshToken, profile, done) => {
   User.findOneAndUpdate({ googleId: profile.id },
     {
       $set: {
         name: profile.name,
         email: profile.emails[0].value,
-        accessToken: accessToken
-      }
+        accessToken,
+      },
     },
-    { upsert: true, 'new': true })
+    { upsert: true, new: true })
     .then((user) => {
       done(null, user);
     }).catch((err) => {

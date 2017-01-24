@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
+
 mongoose.Promise = global.Promise;
 
 const UserSchema = mongoose.Schema({
   name: {
     type: Object,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   googleId: {
     type: String,
@@ -18,7 +19,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  questions: Array
+  questions: Array,
 });
 
 const User = mongoose.model('User', UserSchema);

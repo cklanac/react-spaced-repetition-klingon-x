@@ -10,13 +10,13 @@ export function fetchQuestions() {
     dispatch(fetchQuestionsRequest());
     return fetch('/api/questions', {
       headers: {
-        'Authorization': `Bearer ${cookie.load('accessToken')}`
-      }
-    }).then(res => {
+        Authorization: `Bearer ${cookie.load('accessToken')}`,
+      },
+    }).then((res) => {
       if (!res.ok) {
         throw new Error(res.statusText);
       }
-      return res.json()
+      return res.json();
     }).then(data => dispatch(fetchQuestionsSuccess(data)))
       .catch(err => dispatch(fetchQuestionsError(err)));
   };
@@ -31,6 +31,5 @@ export function fetchQuestionsSuccess(questions) {
 }
 
 export function fetchQuestionsError(error) {
-  return { type: FETCH_QUESTIONS_ERROR, error }
-
-};
+  return { type: FETCH_QUESTIONS_ERROR, error };
+}
